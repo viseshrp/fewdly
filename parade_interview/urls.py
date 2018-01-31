@@ -14,8 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import url, include
+
+from rest_framework.routers import DefaultRouter
+
+from fewdly import views
+
+router = DefaultRouter()
+router.register(r'reviewers', views.ReviewerViewSet)
+router.register(r'reviews', views.ReviewViewSet)
+router.register(r'restaurants', views.RestaurantViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url('admin/', admin.site.urls),
+    url(r'^', include(router.urls)),
 ]
