@@ -5,6 +5,7 @@ from django.db import models
 
 class Reviewer(models.Model):
     name = models.CharField(max_length=100)
+    #  Ideally this would have a One to One relationship with a User
 
 
 class Restaurant(models.Model):
