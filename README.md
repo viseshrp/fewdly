@@ -6,6 +6,19 @@ Fewdly is a simple food review app (think Yelp). We are about to pitch our idea
 to some high-profile VCs, but we need a build a proof-of-concept first.
 Here is what needs to be done:
 
+## Getting started
+We've created a Django app for you called fewdly. We've provided the standard
+Django app structure, but we've left everything else empty for you
+to fill in.
+
+To get started, you can run
+
+`pip install -r requirements/base.txt`
+
+`pip install -r requirements/test.txt`
+
+This will install Django, Django Rest Framework, and some testing libraries.
+
 ## Models
 Let's get started with some models. We need to represent our data somehow.
 Think about what might be needed in a food app. Here are some ideas:
@@ -15,7 +28,7 @@ Think about what might be needed in a food app. Here are some ideas:
 
 ## Serializers
 This is optional. Feel free to create some serializers for your models using Django Rest Framework.
-You are also welcome to just live the built-in Django serializers.
+You are also welcome to just live with the built-in Django serializers.
 
 ## API & Views
 How are people supposed to see their reviews? We need to expose this via an API.
