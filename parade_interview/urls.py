@@ -15,17 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url, include
-
-from rest_framework.routers import DefaultRouter
-
-from fewdly import views
-
-router = DefaultRouter()
-router.register(r'reviewers', views.ReviewerViewSet)
-router.register(r'reviews', views.ReviewViewSet)
-router.register(r'restaurants', views.RestaurantViewSet)
-
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'^', include(router.urls)),
 ]
