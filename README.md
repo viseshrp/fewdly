@@ -19,6 +19,12 @@ To get started, you can run
 
 This will install Django, Django Rest Framework, and some testing libraries.
 
+If you run
+
+`python manage.py runserver`
+
+You should see the Django successful installation page.
+
 ## Models
 Let's get started with some models. We need to represent our data somehow.
 Think about what might be needed in a food app. Here are some ideas:
