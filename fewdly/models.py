@@ -1,14 +1,13 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class Reviewer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Reviewer(AbstractUser):
     phone = models.CharField(unique=True, max_length=10, default='')
     address = models.CharField(max_length=128)
     city = models.CharField(max_length=30)
@@ -17,19 +16,6 @@ class Reviewer(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-@receiver(post_save, sender=User)
-def create_reviewer(sender, instance, created, **kwargs):
-    if created:
-        logger.error('User created.. Now creating reviewer..')
-        Reviewer.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_reviewer(sender, instance, **kwargs):
-    logger.error('Reviewer being saved...')
-    instance.reviewer.save()
 
 
 class Restaurant(models.Model):
