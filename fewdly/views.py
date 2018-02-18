@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status, authentication, permissions
+from rest_framework import status, authentication, permissions, generics
 from rest_framework.decorators import permission_classes
 from .models import Review, Reviewer, Restaurant
 from .serializers import ReviewSerializer, ReviewerSerializer, RestaurantSerializer
@@ -45,56 +45,28 @@ class Reviews(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class RestaurantList(APIView):
+class RestaurantList(generics.ListCreateAPIView):
     """
-    Retrieve list of restaurants
+    Retrieve list of restaurants or create one.
     """
-
-    authentication_classes = (authentication.BasicAuthentication,)
-    # only allow authenticated users to see reviews
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get(self, request):
-        restaurant_list = Restaurant.objects.all()
-        # logger.error(review_list)
-        serializer = RestaurantSerializer(restaurant_list, many=True)
-
-        return Response(serializer.data)
-
-
-class RestaurantDetail(APIView):
 
     authentication_classes = (authentication.BasicAuthentication,)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.IsAdminUser,)
 
-    def get_object(self, pk):
-        try:
-            return Restaurant.objects.get(pk=pk)
-        except Restaurant.DoesNotExist:
-            raise Http404
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
 
-    def get(self, request, restaurant_id):
-        restaurant = self.get_object(restaurant_id)
-        serializer = RestaurantSerializer(restaurant)
-        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = RestaurantSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    def put(self, request, restaurant_id):
-        restaurant = self.get_object(restaurant_id)
-        serializer = RestaurantSerializer(restaurant, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    """
+    Get, update or delete a restaurant
+    """
 
-    def delete(self, request, restaurant_id):
-        restaurant = self.get_object(restaurant_id)
-        restaurant.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    authentication_classes = (authentication.BasicAuthentication,)
+    # only allow authenticated users to see reviews
+    permission_classes = (permissions.IsAdminUser,)
+
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
