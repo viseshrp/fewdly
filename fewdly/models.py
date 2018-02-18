@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ class Reviewer(AbstractUser):
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=2)
     zip_code = models.CharField(max_length=5)
-    # has_reviewed = models.BooleanField() to restrict one review
+    # has_reviewed = models.BooleanField() to restrict to one review
 
     def __str__(self):
         return self.first_name
@@ -35,7 +36,7 @@ class Restaurant(models.Model):
 
 
 class Review(models.Model):
-    reviewer = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
+    reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
     review_text = models.TextField(max_length=4000, null=True)
