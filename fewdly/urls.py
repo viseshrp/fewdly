@@ -14,5 +14,4 @@ urlpatterns = [
     url(r'^create-restaurant/$', views.RestaurantCreate.as_view(), name='create-restaurant'),
     url(r'^restaurant/(?P<pk>[0-9]+)/$',
         views.RestaurantDetail.as_view(), name='restaurant'),
-    url(r'^reviewers/$', views.ReviewerList.as_view(), name='reviewer-list'),
 ]

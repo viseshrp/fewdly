@@ -109,16 +109,3 @@ class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
-
-
-class ReviewerList(generics.ListCreateAPIView):
-    """
-    Retrieve list of reviewers or create one.
-    """
-
-    authentication_classes = (authentication.BasicAuthentication,)
-    # only allow authenticated users to see reviews
-    permission_classes = (permissions.IsAdminUser,)
-
-    queryset = Reviewer.objects.all()
-    serializer_class = ReviewerSerializer
