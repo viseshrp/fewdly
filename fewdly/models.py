@@ -13,9 +13,10 @@ class Reviewer(AbstractUser):
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=2)
     zip_code = models.CharField(max_length=5)
+    # has_reviewed = models.BooleanField() to restrict one review
 
     def __str__(self):
-        return self.user.username
+        return self.first_name
 
 
 class Restaurant(models.Model):
@@ -24,7 +25,7 @@ class Restaurant(models.Model):
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=2)
     zip_code = models.CharField(max_length=5)
-    created_at = models.CharField(max_length=128)
+    created_at = models.DateTimeField(max_length=128)
 
     def __str__(self):
         return self.name
@@ -40,7 +41,7 @@ class Review(models.Model):
     review_text = models.TextField(max_length=4000, null=True)
 
     def __str__(self):
-        return self.rating
+        return self.review_text[:11]
 
     class Meta:
         ordering = ['rating']
