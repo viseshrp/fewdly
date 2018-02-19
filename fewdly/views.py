@@ -45,7 +45,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,)
     # only allow authenticated users to see reviews
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -69,7 +69,7 @@ class ReviewCreate(generics.CreateAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,)
     # only allow authenticated users to see reviews
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -105,7 +105,7 @@ class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,)
     # only allow authenticated users to see reviews
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
