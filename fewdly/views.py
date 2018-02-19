@@ -24,7 +24,7 @@ def api_root(request):
 
 
 @api_view(['GET'])
-@authentication_classes((authentication.BasicAuthentication,))
+@authentication_classes((authentication.BasicAuthentication, authentication.SessionAuthentication))
 @permission_classes((permissions.IsAuthenticated,))
 def get_user_review(request, user_id):
     try:
@@ -43,7 +43,8 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Get, update or delete a restaurant
     """
-    authentication_classes = (authentication.BasicAuthentication,)
+    authentication_classes = (authentication.BasicAuthentication,
+                              authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -55,7 +56,8 @@ class ReviewList(generics.ListAPIView):
     """
     Retrieve list of reviews.
     """
-    authentication_classes = (authentication.BasicAuthentication,)
+    authentication_classes = (authentication.BasicAuthentication,
+                              authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.AllowAny,)
 
@@ -67,7 +69,8 @@ class ReviewCreate(generics.CreateAPIView):
     """
     Create review.
     """
-    authentication_classes = (authentication.BasicAuthentication,)
+    authentication_classes = (authentication.BasicAuthentication,
+                              authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -79,7 +82,8 @@ class RestaurantList(generics.ListAPIView):
     """
     Retrieve list of restaurants or create one.
     """
-    authentication_classes = (authentication.BasicAuthentication,)
+    authentication_classes = (authentication.BasicAuthentication,
+                              authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.AllowAny,)
 
@@ -91,7 +95,8 @@ class RestaurantCreate(generics.CreateAPIView):
     """
     Retrieve list of restaurants or create one.
     """
-    authentication_classes = (authentication.BasicAuthentication,)
+    authentication_classes = (authentication.BasicAuthentication,
+                              authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.IsAdminUser,)
 
@@ -103,7 +108,8 @@ class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Get, update or delete a restaurant
     """
-    authentication_classes = (authentication.BasicAuthentication,)
+    authentication_classes = (authentication.BasicAuthentication,
+                              authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
     permission_classes = (permissions.IsAuthenticated,)
 
