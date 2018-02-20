@@ -4,38 +4,47 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from fewdly.models import Reviewer, Restaurant, Review
 import logging
-#  Test your views!
+
 logger = logging.getLogger(__name__)
 
 
 class ReviewsListTest(APITestCase):
+    """
+    Test the review list API
+    """
 
     def setUp(self):
         pass
 
-    def test_can_create_review(self):
+    def test_list_review(self):
         response = self.client.get(reverse('fewdly:review-list'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class RestaurantListTest(APITestCase):
+    """
+    Test the restaurant listing API
+    """
 
     def setUp(self):
         pass
 
-    def test_can_create_review(self):
+    def test_list_restaurant(self):
         response = self.client.get(reverse('fewdly:restaurant-list'),)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class ReviewCreateTest(APITestCase):
+    """
+    Test review creation
+    """
 
     def setUp(self):
         self.user = User.objects.create(username='test678')
         self.restaurant = Restaurant.objects.create(
             name='Testaurant', created_at='2018-02-18T21:08:02Z')
-        self.client.force_authenticate(user=self.user)
+        self.client.force_authenticate(user=self.user)  # force auth
         self.data = {
             "rating": 3,
             "review_text": "test",

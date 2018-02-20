@@ -27,6 +27,7 @@ def api_root(request):
 @authentication_classes((authentication.BasicAuthentication, authentication.SessionAuthentication))
 @permission_classes((permissions.IsAuthenticated,))
 def get_user_review(request, user_id):
+    # get review per user
     try:
         reviewer = Reviewer.objects.get(pk=user_id)
     except Reviewer.DoesNotExist:
@@ -80,7 +81,7 @@ class ReviewCreate(generics.CreateAPIView):
 
 class RestaurantList(generics.ListAPIView):
     """
-    Retrieve list of restaurants or create one.
+    Retrieve list of restaurants.
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
@@ -93,7 +94,7 @@ class RestaurantList(generics.ListAPIView):
 
 class RestaurantCreate(generics.CreateAPIView):
     """
-    Retrieve list of restaurants or create one.
+    Create restaurants.
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
@@ -111,7 +112,7 @@ class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
     # only allow authenticated users to see reviews
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer

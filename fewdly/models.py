@@ -9,19 +9,21 @@ logger = logging.getLogger(__name__)
 
 
 class Reviewer(models.Model):
+    """
+    A reviewer/user. Has an OneToOneField with User model.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=10, default='')
     address = models.CharField(max_length=128)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=2)
     zip_code = models.CharField(max_length=5)
-    # has_reviewed = models.BooleanField() to restrict to one review
 
     def __str__(self):
         return self.user.first_name
 
 
-# define signals.
+# define signals to create reviewer after User is created.
 @receiver(post_save, sender=User)
 def create_reviewer(sender, instance, created, **kwargs):
     if created:
@@ -36,6 +38,9 @@ def save_reviewer(sender, instance, **kwargs):
 
 
 class Restaurant(models.Model):
+    """
+    A restaurant.
+    """
     name = models.CharField(unique=True, max_length=128)
     address = models.CharField(max_length=128)
     city = models.CharField(max_length=30)
@@ -51,6 +56,9 @@ class Restaurant(models.Model):
 
 
 class Review(models.Model):
+    """
+    A review written by a user. Related to a restaurant and a reviewer.
+    """
     reviewer = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)

@@ -5,7 +5,7 @@ from . import views
 app_name = 'fewdly'
 
 urlpatterns = [
-    url(r'^$', views.api_root),
+    url(r'^$', views.api_root, name='api-root'),
     url(r'^reviews/$', views.ReviewList.as_view(), name='review-list'),
     url(r'^create-review/$', views.ReviewCreate.as_view(), name='create-review'),
     url(r'^review/(?P<pk>[0-9]+)/$', views.ReviewDetail.as_view(), name='review'),
