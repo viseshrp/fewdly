@@ -9,8 +9,28 @@ from .models import Review, Reviewer, Restaurant
 from .serializers import ReviewSerializer, ReviewerSerializer, RestaurantSerializer
 from django.http import Http404
 import logging
+# import math
 
 logger = logging.getLogger(__name__)
+
+
+@api_view(['GET'])
+def get_average_review(request, restaurant_id):
+    try:
+        restaurant = Restaurant.objects.get(pk=restaurant_id)
+    except Restaurant.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    review_list = restaurant.review_set.all()
+
+    rating_list = [review.rating for review in review_list]
+
+    total_rating = 0
+
+    for rating in rating_list:
+        total_rating += rating
+
+    return Response({'average_rating': total_rating / len(rating_list)})
 
 
 @api_view(['GET'])
@@ -46,7 +66,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
-    # only allow authenticated users to see reviews
+
     permission_classes = (permissions.IsAuthenticated,)
 
     queryset = Review.objects.all()
@@ -59,7 +79,7 @@ class ReviewList(generics.ListAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
-    # only allow authenticated users to see reviews
+
     permission_classes = (permissions.AllowAny,)
 
     queryset = Review.objects.all()
@@ -72,7 +92,7 @@ class ReviewCreate(generics.CreateAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
-    # only allow authenticated users to see reviews
+
     permission_classes = (permissions.IsAuthenticated,)
 
     queryset = Review.objects.all()
@@ -85,7 +105,7 @@ class RestaurantList(generics.ListAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
-    # only allow authenticated users to see reviews
+
     permission_classes = (permissions.AllowAny,)
 
     queryset = Restaurant.objects.all()
@@ -98,7 +118,7 @@ class RestaurantCreate(generics.CreateAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
-    # only allow authenticated users to see reviews
+
     permission_classes = (permissions.IsAdminUser,)
 
     queryset = Restaurant.objects.all()
@@ -111,7 +131,7 @@ class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     authentication_classes = (authentication.BasicAuthentication,
                               authentication.SessionAuthentication)
-    # only allow authenticated users to see reviews
+
     permission_classes = (permissions.IsAdminUser,)
 
     queryset = Restaurant.objects.all()

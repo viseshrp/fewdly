@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^create-restaurant/$', views.RestaurantCreate.as_view(), name='create-restaurant'),
     url(r'^restaurant/(?P<pk>[0-9]+)/$',
         views.RestaurantDetail.as_view(), name='restaurant'),
+    url(r'^get-average-review/(?P<restaurant_id>[0-9]+)/$',
+        views.get_average_review, name='get-average-review'),
 ]
